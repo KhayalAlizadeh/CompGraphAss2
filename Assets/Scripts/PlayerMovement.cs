@@ -17,9 +17,16 @@ public class PlayerMovement : MonoBehaviour {
 
     private void FixedUpdate() {
         Vector2 movement2 = inputDirection * moveSpeed;
-        Vector3 movement3 = new Vector3(movement2.x, 0, movement2.y);
+        float movementY;
+        if (!characterController.isGrounded) {
+            movementY = Physics.gravity.y;
+        }
+        else {
+            movementY = 0;
+        }
+
+            Vector3 movement3 = new Vector3(movement2.x, movementY, movement2.y);
 
         characterController.Move(movement3 * Time.fixedDeltaTime);
     }
-
 }

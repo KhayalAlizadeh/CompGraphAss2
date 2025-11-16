@@ -8,7 +8,16 @@ public class PlayerStats : MonoBehaviour {
             return health;
         }
         set {
-            health = value;
+            if (value >= maxHealth) {
+                health = maxHealth;
+            }
+            else if (value < 0) {
+                health = 0;
+                // dead
+            }
+            else {
+                health = value;
+            }
         }
     }
 
@@ -18,6 +27,6 @@ public class PlayerStats : MonoBehaviour {
 
     public void TakeDamage(float damage) {
         Health -= damage;
-        Debug.Log($"Player Health: {damage}");
+        Debug.Log($"Player Health: {Health}");
     }
 }

@@ -25,6 +25,7 @@ public class EnemyIdle : State<EnemyStateMachine.EnemyState> {
     //Before Frame()
     public override EnemyStateMachine.EnemyState GetNextState() {
         if (distanceFromTarget <= enemy.detectionRange) {
+            stateMachine.GetComponent<Animator>().SetInteger("State", (int)EnemyStateMachine.EnemyState.Chase);
             return EnemyStateMachine.EnemyState.Chase;
         }
         return Key;

@@ -33,6 +33,7 @@ public class EnemyChase : State<EnemyStateMachine.EnemyState> {
     }
     public override EnemyStateMachine.EnemyState GetNextState() {
         if (distanceFromTarget > enemy.detectionRange) {
+            stateMachine.GetComponent<Animator>().SetInteger("State", (int)EnemyStateMachine.EnemyState.Idle);
             return EnemyStateMachine.EnemyState.Idle;
         }
         return Key;

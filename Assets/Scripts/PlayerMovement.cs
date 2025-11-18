@@ -4,15 +4,45 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour {
     [SerializeField] private InputActionReference move;
+    [SerializeField] private InputActionReference run;
     [SerializeField] private float moveSpeed;
+    [SerializeField] private Animator animator;
+    [SerializeField] private float blendSpeed;
     private CharacterController characterController;
     private Vector2 inputDirection;
+    bool isRunning = false;
     void Start() {
         characterController = GetComponent<CharacterController>();
     }
 
+    private void OnEnable() {
+        run.action.started += Run;
+        run.action.canceled += RunStop;
+        run.action.Enable();
+    }
+
+    private void OnDisable() {
+        run.action.started -= Run;
+        run.action.canceled -= RunStop;
+        run.action.Disable();
+    }
+    private void Run(InputAction.CallbackContext context) {
+        isRunning = true;
+    }
+
+    private void RunStop(InputAction.CallbackContext context) {
+        isRunning = false;
+    }
+
     private void Update() {
         inputDirection = move.action.ReadValue<Vector2>();
+        
+        if (isRunning) {
+            inputDirection *= 2;
+        }
+
+        animator.SetFloat("MoveX", inputDirection.x, blendSpeed, Time.deltaTime);
+        animator.SetFloat("MoveY", inputDirection.y, blendSpeed, Time.deltaTime);
     }
 
     private void FixedUpdate() {
@@ -25,7 +55,7 @@ public class PlayerMovement : MonoBehaviour {
             movementY = 0;
         }
 
-            Vector3 movement3 = new Vector3(movement2.x, movementY, movement2.y);
+        Vector3 movement3 = new Vector3(movement2.x, movementY, movement2.y);
 
         characterController.Move(movement3 * Time.fixedDeltaTime);
     }

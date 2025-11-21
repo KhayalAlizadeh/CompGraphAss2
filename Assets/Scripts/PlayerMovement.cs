@@ -11,8 +11,12 @@ public class PlayerMovement : MonoBehaviour {
     private CharacterController characterController;
     private Vector2 inputDirection;
     bool isRunning = false;
+    private Vector3 basePos = Vector3.zero;
+    private Rigidbody rigidBody;
     void Start() {
+        basePos = transform.position;
         characterController = GetComponent<CharacterController>();
+        rigidBody = GetComponent<Rigidbody>();
     }
 
     private void OnEnable() {
@@ -58,5 +62,11 @@ public class PlayerMovement : MonoBehaviour {
         Vector3 movement3 = new Vector3(movement2.x, movementY, movement2.y);
 
         characterController.Move(movement3 * Time.fixedDeltaTime);
+    }
+
+    public void ResetPosition() {
+        characterController.enabled = false;
+        transform.position = basePos;
+        characterController.enabled = true;
     }
 }

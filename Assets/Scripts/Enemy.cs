@@ -16,6 +16,7 @@ public class Enemy : MonoBehaviour {
     private void OnCollisionEnter(Collision collision) {
         if (collision.gameObject.CompareTag("Player")) {
             collision.gameObject.GetComponent<PlayerStats>().TakeDamage(damage);
+            collision.gameObject.GetComponent<PlayerMovement>().ResetPosition();
         }
     }
 }

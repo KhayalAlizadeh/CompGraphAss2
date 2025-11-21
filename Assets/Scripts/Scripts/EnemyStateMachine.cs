@@ -1,6 +1,7 @@
 using UnityEngine;
 
 public class EnemyStateMachine : StateMachine<EnemyStateMachine.EnemyState> {
+    [SerializeField] private AudioSource detectionAudio;
     public enum EnemyState {
         Idle,
         Chase
@@ -14,5 +15,9 @@ public class EnemyStateMachine : StateMachine<EnemyStateMachine.EnemyState> {
             default:
                 return null;
         }
+    }
+
+    public void PlayDetectionAudio() {
+        detectionAudio.Play();
     }
 }

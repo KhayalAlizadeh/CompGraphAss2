@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour {
     [SerializeField] private float moveSpeed;
     [SerializeField] private Animator animator;
     [SerializeField] private float blendSpeed;
+    [SerializeField] private AudioSource movementAudio;
     private CharacterController characterController;
     private Vector2 inputDirection;
     bool isRunning = false;
@@ -60,7 +61,18 @@ public class PlayerMovement : MonoBehaviour {
         }
 
         Vector3 movement3 = new Vector3(movement2.x, movementY, movement2.y);
-
+        if (inputDirection != Vector2.zero) {
+            if (!movementAudio.isPlaying) {
+                Debug.Log("Starting Playing");
+                movementAudio.Play();
+            }
+            else {
+                Debug.Log("Already Playing!!!");
+            }
+        }
+        else {
+            movementAudio.Stop();
+        }
         characterController.Move(movement3 * Time.fixedDeltaTime);
     }
 

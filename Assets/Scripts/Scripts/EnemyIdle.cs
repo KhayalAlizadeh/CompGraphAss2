@@ -25,6 +25,7 @@ public class EnemyIdle : State<EnemyStateMachine.EnemyState> {
     //Before Frame()
     public override EnemyStateMachine.EnemyState GetNextState() {
         if (distanceFromTarget <= enemy.detectionRange) {
+            (stateMachine as EnemyStateMachine).PlayDetectionAudio();
             stateMachine.GetComponent<Animator>().SetInteger("State", (int)EnemyStateMachine.EnemyState.Chase);
             return EnemyStateMachine.EnemyState.Chase;
         }
